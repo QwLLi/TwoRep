@@ -21,8 +21,8 @@ public class Main {
      //   System.out.println(userService.getAllUsers());
 
         List<User> users = userService.getAllUsers();
-        for( User r : users){
-            System.out.println(r);
+        for( User user : users){
+            System.out.println(user);
         }
 
 

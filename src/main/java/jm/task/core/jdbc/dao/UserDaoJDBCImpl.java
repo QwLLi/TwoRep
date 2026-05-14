@@ -27,10 +27,11 @@ public class UserDaoJDBCImpl implements UserDao {
                 )
                 """;
 
-        try (var connect = Util.connect()) {
-            Statement statement = connect.createStatement();
+        try (var connect = Util.connect();
+             Statement statement = connect.createStatement()) {
+
             statement.executeUpdate(sql);
-            log.info("Бд создана");
+            log.info("UserDaoJDBCImpl.createUsersTable таблица users создана");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
