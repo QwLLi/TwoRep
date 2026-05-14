@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class UserDaoJDBCImpl implements UserDao {
+public class UserDaoJDBCImpl implements UserDao{
     public UserDaoJDBCImpl() {
 
     }
@@ -31,9 +31,9 @@ public class UserDaoJDBCImpl implements UserDao {
              Statement statement = connect.createStatement()) {
 
             statement.executeUpdate(sql);
-            log.info("UserDaoJDBCImpl.createUsersTable таблица users создана");
+            log.info("userDaoJDBCImpl.createUsersTable таблица users создана");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            log.error("Ошибка при создание таблицы: " + e.getMessage());
         }
 
     }
@@ -47,9 +47,9 @@ public class UserDaoJDBCImpl implements UserDao {
              var statment = connections.createStatement()) {
 
             statment.executeUpdate(sql);
-            log.info("DB Delete");
+            log.info("userService.dropUsersTable таблица удалена");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            log.error("Ошибка при удалении таблицы: " + e.getMessage());
         }
 
     }
@@ -70,7 +70,7 @@ public class UserDaoJDBCImpl implements UserDao {
             log.info("User с именем: " + name + " " + lastName + " возраст: " + age + " успешкко добавлен в БД");
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            log.error("Ошибка при сохранение User в таблицу: " + e.getMessage());
         }
 
     }
@@ -85,8 +85,8 @@ public class UserDaoJDBCImpl implements UserDao {
                 SELECT  * FROM users
                 """;
         try (var connectons = Util.connect();
-             var statment = connectons.createStatement();
-             var resultstatment = statment.executeQuery(sql)) {
+             var statement = connectons.createStatement();
+             var resultstatment = statement.executeQuery(sql)) {
 
             while (resultstatment.next()) {
                 User user = new User();
@@ -98,7 +98,7 @@ public class UserDaoJDBCImpl implements UserDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            log.error("Ошибка при получении всех User из таблицы: " + e.getMessage());
         }
 
         return users;
@@ -112,9 +112,10 @@ public class UserDaoJDBCImpl implements UserDao {
         try (var connections = Util.connect();
              var statment = connections.createStatement()) {
             statment.executeUpdate(sql);
-            log.info("Table clear");
+            log.info("userService.cleanUsersTable таблица очищена");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            log.error("Ошибка при очищении таблицы: " + e.getMessage());
+
         }
 
     }
