@@ -10,7 +10,6 @@ import org.hibernate.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Slf4j
 public class UserDaoHibernateImpl implements UserDao {
@@ -50,7 +49,7 @@ public class UserDaoHibernateImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Ошибка при создании таблицы:" + e.getMessage());
+            log.error("Ошибка при создании таблицы: {}" + e);
         }
 
 
@@ -69,12 +68,12 @@ public class UserDaoHibernateImpl implements UserDao {
             session.createNativeQuery(sql).executeUpdate();
             transaction.commit();
 
-            log.info("userDaoHibernate.createUsersTable(): Таблица удалена");
+            log.info("userDaoHibernate.dropUsersTable(): Таблица удалена");
         } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Ошибка при удалении таблицы:" + e.getMessage());
+            log.error("Ошибка при удалении таблицы: {}" + e);
         }
 
     }
@@ -95,7 +94,7 @@ public class UserDaoHibernateImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Ошибка при добавлении User:" + e.getMessage());
+            log.error("Ошибка при добавлении User: {}" + e);
         }
     }
 
@@ -116,7 +115,7 @@ public class UserDaoHibernateImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Ошибка при удалении User c id: " + id + e.getMessage());
+            log.error("Ошибка при удалении User c id: {}" + id + e);
         }
     }
 
@@ -124,10 +123,10 @@ public class UserDaoHibernateImpl implements UserDao {
     public List<User> getAllUsers() {
 
         try (Session session = sessionFactory.openSession()){
-            return session.createQuery("FROM User",User.class).list();
+            return session.createQuery("FROM User",User.class).getResultList();
 
         } catch (HibernateException e) {
-            log.error("Ошибка при вывводе всех User" + e.getMessage());
+            log.error("Ошибка при вывводе всех User {}" + e);
 
         }
           return new ArrayList<>();
@@ -150,7 +149,7 @@ public class UserDaoHibernateImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Ошибка при очищение таблицы " + e.getMessage());
+            log.error("Ошибка при очищение таблицы {}" + e);
 
         }
     }
